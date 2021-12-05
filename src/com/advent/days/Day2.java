@@ -1,6 +1,6 @@
-package com.advent.day1;
+package com.advent.days;
 
-import com.advent.FileToStringArray;
+import com.advent.FileToArray;
 
 public class Day2 {
     private int mHorizontal = 0;
@@ -9,7 +9,7 @@ public class Day2 {
     private String[] mStrings = new String[2];
 
     public int thirdStar() {
-        Object[] objects = FileToStringArray.fileToArray("Day2-input.txt");
+        Object[] objects = FileToArray.fileToStringArray("Day2-input.txt");
 
         for (int i = 0; i < objects.length; i++) {
             if (((String) objects[i]).contains("forward")) {
@@ -31,7 +31,7 @@ public class Day2 {
     }
 
     public int fourthStar() {
-        Object[] objects = FileToStringArray.fileToArray("Day2-input.txt");
+        Object[] objects = FileToArray.fileToStringArray("Day2-input.txt");
 
         for (int i = 0; i < objects.length; i++) {
             if (((String) objects[i]).contains("forward")) {
