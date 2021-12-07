@@ -2,6 +2,9 @@ package com.advent.days;
 
 import com.advent.FileToArray;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
 public class Day3 {
     public double fifthStar() {
         Object[] objects = FileToArray.fileToStringArray("Day3-input.txt");
@@ -9,8 +12,6 @@ public class Day3 {
         int onesCount;
         long[] gammaArray = new long[12];
         long[] epsilonArray = new long[12];
-        double gamma = 0;
-        double epsilon = 0;
 
         for (int i = 0; i < objects[0].toString().length(); i++) {
             onesCount = 0;
@@ -29,27 +30,85 @@ public class Day3 {
             }
         }
 
-        int k = 0;
-        for (int i = gammaArray.length - 1; i >= 0; i--) {
-            if (gammaArray[i] == 1) gamma = gamma + Math.pow(2, k);
-            k++;
-        }
-        k = 0;
-        for (int i = epsilonArray.length - 1; i >= 0; i--) {
-            if (epsilonArray[i] == 1) epsilon = epsilon + Math.pow(2, k);
-            k++;
+        String gammaString = "";
+        String epsilonString = "";
+
+        for (long n : gammaArray) {
+            gammaString = gammaString + n;
         }
 
-        System.out.println(gamma);
-        System.out.println(epsilon);
-        return gamma * epsilon;
+        for (long n : epsilonArray) {
+            epsilonString = epsilonString + n;
+        }
+
+        return Long.parseLong(gammaString, 2) * Long.parseLong(epsilonString, 2);
     }
 
     public double sixthStar() {
         Object[] objects = FileToArray.fileToStringArray("Day3-input.txt");
+        LinkedList<String> numbers = new LinkedList<>();
 
-        
+        for (Object object : objects) {
+            numbers.add(object.toString());
+        }
 
-        return 0;
+        int onesCount;
+        int zerosCount;
+        String delete = "";
+        String oxygenGenerator = "";
+        String C02scrubber = "";
+
+        for (int i = 0; i < objects[0].toString().length(); i++) {
+            onesCount = 0;
+            zerosCount = 0;
+            for (String n : numbers) {
+                String[] splitted = n.split("");
+                if (splitted[i].equals("1")) onesCount++;
+                else zerosCount++;
+            }
+
+            if (onesCount > zerosCount || onesCount == zerosCount) delete = "0";
+            else delete = "1";
+
+            for (Iterator<String> it = numbers.iterator(); it.hasNext();) {
+                String next = it.next();
+                String[] splitted = next.split("");
+                if (splitted[i].equals(delete)) it.remove();
+            }
+            if (numbers.size() == 1) {
+                oxygenGenerator = numbers.getFirst();
+                break;
+            }
+        }
+
+        numbers.clear();
+        for (Object object : objects) {
+            numbers.add(object.toString());
+        }
+
+        for (int i = 0; i < objects[0].toString().length(); i++) {
+            onesCount = 0;
+            zerosCount = 0;
+            for (String n : numbers) {
+                String[] splitted = n.split("");
+                if (splitted[i].equals("1")) onesCount++;
+                else zerosCount++;
+            }
+
+            if (onesCount > zerosCount || onesCount == zerosCount) delete = "1";
+            else delete = "0";
+
+            for (Iterator<String> it = numbers.iterator(); it.hasNext();) {
+                String next = it.next();
+                String[] splitted = next.split("");
+                if (splitted[i].equals(delete)) it.remove();
+            }
+            if (numbers.size() == 1) {
+                C02scrubber = numbers.getFirst();
+                break;
+            }
+        }
+
+        return Integer.parseInt(oxygenGenerator, 2) * Integer.parseInt(C02scrubber, 2);
     }
 }
